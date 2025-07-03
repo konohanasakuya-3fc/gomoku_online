@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+  <meta charset="UTF-8">
+  <title>五目並べ（オリジナルルール）</title>
+  <style>
+    #board {
+      display: grid;
+      grid-template-columns: repeat(16, 30px);
+      grid-template-rows: repeat(16, 30px);
+      gap: 1px;
+      margin-top: 20px;
+    }
+
+    .cell {
+      width: 30px;
+      height: 30px;
+      background-color: #deb887;
+      border: 1px solid #aaa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .unobserved {
+      background-color: #eee;
+    }
+
+    .black {
+      background-color: black;
+      border-radius: 50%;
+    }
+
+    .white {
+      background-color: white;
+      border-radius: 50%;
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>量子五目並べ</h1>
+  <p id="turn-indicator">現在のターン：黒</p>
+
+  <!-- <div>
+    <label>石の確率を選んでください：</label>
+    <select id="probability-select">
+      <option value="0.9">90%黒</option>
+      <option value="0.7">70%黒</option>
+      <option value="0.3">30%黒</option>
+      <option value="0.1">10%黒</option>
+    </select>
+  </div> -->
+
+  <div id="observe-controls" style="display: none;">
+    <button id="observe-button">観測する</button>
+    <button id="skip-observe-button">観測しない</button>
+    <button id="revert-button" style="display: none;">戻る</button>
+  </div>
+
+  <div id="board"></div>
+  <button id="increment">更新！</button>
+  <p id="value">今の値：未取得</p>
+
+  
+  <button id="reset-button">再起動</button>
+
+
+  <script>
+    // Import the functions you need from the SDKs you need
+    //import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAf-SjPEbqj2LxOvTYitqVPReikAg5TC0g",
+      authDomain: "ryousigomoku.firebaseapp.com",
+      databaseURL: "https://ryousigomoku-default-rtdb.firebaseio.com",
+      projectId: "ryousigomoku",
+      storageBucket: "ryousigomoku.firebasestorage.app",
+      messagingSenderId: "378169580011",
+      appId: "1:378169580011:web:ff45a6b5ed0f3f41a9a1ae"
+    };
+  
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+
+    const counterRef = db.ref("counter");
+    window.observedBoardRef = db.ref("game/observed");
+    window.boardRef = db.ref("game/board");
+    window.gameStateRef = db.ref("game/state");
+
+    document.getElementById("increment").addEventListener("click", () => {
+  const randomNum = Math.floor(Math.random() * 1000);
+  counterRef.set(randomNum);
+});
+
+counterRef.on("value", (snapshot) => {
+  document.getElementById("value").textContent = "今の値：" + snapshot.val();
+});
+
+    
+  </script>
+    <script src="gomoku_online.js"></script>
+
+</body>
+</html>
