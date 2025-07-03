@@ -24,10 +24,22 @@ const observedBoardRef = window.observedBoardRef;
 // 盤面データの2次元配列
 const board = [];
 
+// 各プレイヤーの確率候補
+const blackProbs = [0.9, 0.7];
+const whiteProbs = [0.3, 0.1];
+
+// 現在の確率インデックス
+let blackProbIndex = 0;
+let whiteProbIndex = 0;
 
 
 
 function createBoard() {
+  observeControls.style.display = "none";
+  gamePhase = "waiting_place"; 
+  blackProbIndex = 0;
+  whiteProbIndex = 0;
+
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // ← これも必要！
 
   for (let y = -1; y < BOARD_SIZE; y++) {
@@ -112,13 +124,7 @@ resetBtn.addEventListener("click", () => {
 
 
 
-// 各プレイヤーの確率候補
-const blackProbs = [0.9, 0.7];
-const whiteProbs = [0.3, 0.1];
 
-// 現在の確率インデックス
-let blackProbIndex = 0;
-let whiteProbIndex = 0;
 
 // 現在のターンに対応する確率を取得
 function getNextProbability() {
