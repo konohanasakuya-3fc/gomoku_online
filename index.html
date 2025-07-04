@@ -98,8 +98,8 @@
     window.gameStateRef = db.ref("game/state");
 
     document.getElementById("increment").addEventListener("click", () => {
-  const randomNum = Math.floor(Math.random() * 1000);
-  counterRef.set(randomNum);
+    const randomNum = Math.floor(Math.random() * 1000);
+    counterRef.set(randomNum);
 });
 
 counterRef.on("value", (snapshot) => {
